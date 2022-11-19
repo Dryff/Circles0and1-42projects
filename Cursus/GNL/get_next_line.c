@@ -43,7 +43,7 @@ int check_end_of_line(char *backup, int read_res)
 
     i = 0;
     if (read_res == 0)
-        return (0);
+        return (1);
 	if (!backup)
 		return (0);
     while (backup[i] != '\0')
@@ -74,7 +74,7 @@ char	*read_file(int fd, char *backup)
 		}
 		buffer[read_res] = '\0';
 		backup = ft_strjoin(backup, buffer);
-		// printf(" || \n%s %d %s", buffer, j, backup);
+		// printf(" || %s", backup);
 	}
 	free(buffer);
 	return (backup);
@@ -125,9 +125,6 @@ char	*get_next_line(int fd)
 int main() 
 {
 	int fd = open("test.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
