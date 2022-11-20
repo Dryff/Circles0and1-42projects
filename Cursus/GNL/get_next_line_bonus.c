@@ -111,15 +111,15 @@ char	*get_next_buffer(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[100];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd > 100)
 		return (NULL);
-	buffer = read_file(fd, buffer);
-	if (!buffer)
+	buffer[fd] = read_file(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (0);
-	line = get_line(buffer);
-	buffer = get_next_buffer(buffer);
+	line = get_line(buffer[fd]);
+	buffer[fd] = get_next_buffer(buffer[fd]);
 	return (line);
 }
