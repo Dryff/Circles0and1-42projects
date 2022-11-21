@@ -1,18 +1,18 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   get_next_line.c                                    :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: cgelin <cgelin@student.42.fr>                +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2022/11/18 10:28:06 by cgelin             #+#    #+#             */
-// /*   Updated: 2022/11/18 10:28:06 by cgelin            ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/20 14:37:28 by cgelin            #+#    #+#             */
+/*   Updated: 2022/11/21 14:30:13 by cgelin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char    *get_line(char *backup)
+char	*get_the_line(char *backup)
 {
 	int		i;
 	char	*line;
@@ -22,7 +22,9 @@ char    *get_line(char *backup)
 		return (NULL);
 	while (backup[i] && backup[i] != '\n')
 		i++;
-	line = (char *)malloc(sizeof(char) * (i + 2));
+	if (backup[i] == '\n')
+		i++;
+	line = malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -36,33 +38,32 @@ char    *get_line(char *backup)
 		line[i] = backup[i];
 		i++;
 	}
-	line[i] = '\0';
-	return (line);
+	return (line[i] = '\0', line);
 }
 
-int check_end_of_line(char *backup, int read_res)
+int	check_end_of_line(char *backup, int read_res)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (read_res == 0)
-        return (1);
+	i = 0;
+	if (read_res == 0)
+		return (1);
 	if (!backup)
 		return (0);
-    while (backup[i] != '\0')
-    {
-        if (backup[i] == '\n')
-            return (1);
-        i++;
-    }
-    return (0);
+	while (backup[i] != '\0')
+	{
+		if (backup[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 char	*read_file(int fd, char *backup)
 {
 	char	*buffer;
 	int		read_res;
-	
+
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
@@ -84,9 +85,9 @@ char	*read_file(int fd, char *backup)
 
 char	*get_next_buffer(char *buffer)
 {
-	int i;
-	int n;
-	char *next_line_start;
+	int		i;
+	int		n;
+	char	*next_line_start;
 
 	i = 0;
 	n = 0;
@@ -111,15 +112,24 @@ char	*get_next_buffer(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[100];
+	static char	*buffer[10240];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0 || fd > 99)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 10241)
 		return (NULL);
+	if (read(fd, 0, 0) < 0)
+	{
+		if (buffer[fd])
+			buffer[fd][0] = 0;
+		return (NULL);
+	}
 	buffer[fd] = read_file(fd, buffer[fd]);
 	if (!buffer[fd])
-		return (0);
-	line = get_line(buffer[fd]);
+	{
+		free(buffer[fd]);
+		return (NULL);
+	}
+	line = get_the_line(buffer[fd]);
 	buffer[fd] = get_next_buffer(buffer[fd]);
 	return (line);
 }

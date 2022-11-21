@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/18 18:59:20 by cgelin             #+#    #+#             */
-/*   Updated: 2022/11/18 18:59:20 by cgelin            ###   ########.fr       */
+/*   Created: 2022/11/20 14:40:06 by cgelin            #+#    #+#             */
+/*   Updated: 2022/11/21 12:03:47 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,22 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1)
 	{
 		s1 = (char *)malloc(1 * sizeof(char));
+		if (!s1)
+			return (NULL);
 		s1[0] = '\0';
 	}
-	if (!s1 || !s2)
+	if (!s2)
 		return (NULL);
-	str = malloc((sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (str == NULL)
-		return (NULL);
+	str = malloc((sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1)));
+	if (!str)
+	{
+		free(s1);
+		return (NULL);		
+	}
 	i = -1;
 	j = 0;
-	if (s1)
-		while (s1[++i] != '\0')
-			str[i] = s1[i];
+	while (s1[++i] != '\0')
+		str[i] = s1[i];
 	while (s2[j] != '\0')
 		str[i++] = s2[j++];
 	str[i] = '\0';
