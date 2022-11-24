@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 14:40:06 by cgelin            #+#    #+#             */
-/*   Updated: 2022/11/21 12:03:47 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/11/24 10:13:26 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,6 @@ size_t	ft_strlen(char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-
-char	*ft_strchr(char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (c == '\0')
-		return ((char *)&s[ft_strlen(s)]);
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char) c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	return (0);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -59,10 +41,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	str = malloc((sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1)));
 	if (!str)
-	{
-		free(s1);
-		return (NULL);		
-	}
+		return (free(s1), NULL);
 	i = -1;
 	j = 0;
 	while (s1[++i] != '\0')

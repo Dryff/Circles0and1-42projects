@@ -6,11 +6,11 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 14:37:28 by cgelin            #+#    #+#             */
-/*   Updated: 2022/11/21 14:30:13 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/11/24 11:15:33 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_the_line(char *backup)
 {
@@ -118,11 +118,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 10241)
 		return (NULL);
 	if (read(fd, 0, 0) < 0)
-	{
-		if (buffer[fd])
-			buffer[fd][0] = 0;
-		return (NULL);
-	}
+		return (free(buffer[fd]), buffer[fd] = NULL, NULL);
 	buffer[fd] = read_file(fd, buffer[fd]);
 	if (!buffer[fd])
 	{

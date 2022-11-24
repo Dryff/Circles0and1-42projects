@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 14:33:41 by cgelin            #+#    #+#             */
-/*   Updated: 2022/11/21 14:33:06 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/11/24 17:28:47 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,9 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		free(buffer);
 		return (NULL);
-	}
 	if (read(fd, 0, 0) < 0)
-	{
-		if (buffer)
-			buffer[0] = 0;
-		return (NULL);
-	}
+		return (free(buffer), buffer = NULL, NULL);
 	buffer = read_file(fd, buffer);
 	if (!buffer)
 	{

@@ -6,7 +6,7 @@
 /*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 14:38:44 by cgelin            #+#    #+#             */
-/*   Updated: 2022/11/20 14:51:06 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/11/24 10:36:38 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
 size_t	ft_strlen(char *str);
 char	*ft_strjoin(char *s1, char *s2);
