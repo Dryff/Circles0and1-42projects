@@ -14,6 +14,7 @@ typedef struct  s_pipex
 
     char    **cmd1;
     char    **cmd2;
+    char    **paths;
 
 }               t_pipex;
 
@@ -22,5 +23,6 @@ void        ft_putstr_fd(char *s, int fd);
 char		**ft_split(char const *s, char c);
 void        free_all(char **strs);
 char        *ft_strjoin(char const *s1, char const *s2);
+char        *path_finder(char **envp);
 
 #endif

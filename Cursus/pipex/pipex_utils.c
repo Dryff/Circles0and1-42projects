@@ -15,6 +15,29 @@ void    ft_putstr_fd(char *s, int fd)
     write(fd, s, ft_strlen(s));
 }
 
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+    n--;
+	while (i < n && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+char    *path_finder(char **envp)
+{
+    size_t  i;
+
+    i = 0;
+    while (ft_strncmp(envp[i], "PATH", 4))
+        i++;
+    return (&envp[i][5]);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t  	i;
