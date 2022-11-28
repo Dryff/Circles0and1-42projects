@@ -6,30 +6,64 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:56 by colas             #+#    #+#             */
-/*   Updated: 2022/11/28 14:27:34 by colas            ###   ########.fr       */
+/*   Updated: 2022/11/28 17:32:41 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int exec_cmds(t_pipex pipex, char **envp)
+void    exec_first(t_pipex pipex, char **envp)
 {
-    pid_t pid1;
-    pid_t pid2;
     int fd[2];
     char *path;
 
     path = ft_strjoin("/bin/", pipex.cmd1[0]);
-    if (!access(path, X_OK) || pipe(fd) == -1)
-        return (free(path), 0);
+    if (dup2(fd[1], STDOUT_FILENO) == -1)
+		return (ft_putstr_fd("ERROR1.1", 2));
+	if (dup2(pipex.input, STDIN_FILENO) == -1)
+		return (ft_putstr_fd("ERROR1.2", 2));
+    close (fd[0]);
+    close (pipex.input);
+    close (fd[1]);
+    execve(path, pipex.cmd1, envp);
+}
+void    exec_second(t_pipex pipex, char **envp)
+{
+    int fd[2];
+    char *path;
+
+    path = ft_strjoin("/bin/", pipex.cmd2[0]);  
+    if (!dup2(fd[0], STDIN_FILENO))
+		return (ft_putstr_fd("ERROR2.1", 2));
+    if (!dup2(pipex.output, STDOUT_FILENO))
+		return (ft_putstr_fd("ERROR2.2", 2));
+    close (fd[0]);
+    close (pipex.input);
+    close (fd[1]);
+    execve(path, pipex.cmd2, envp);
+
+}
+
+int exec_cmds(t_pipex pipex, char **envp)
+{
+    pid_t   pid1;
+    pid_t   pid2;
+    int     fd[2];
+
+    // if (!access(path1, X_OK) || !access(path2, X_OK))
+    //     return (free(path1), free(path2), 0);
+    if (pipe(fd) == -1)
+        return (0);
     pid1 = fork();
     if (pid1 == -1)
-        return (free(path), 0);
-    // exec_first(pipex, envp);
+        return (0);
+    if (pid1 == 0)
+        exec_first(pipex, envp);
     pid2 = fork();
     if (pid2 == -1)
-        return (free(path), 0);
-    // exec_second(pipex, envp);
+        return (0);
+    if (pid2 == 0)
+        exec_second(pipex, envp);
     return (1);
 }
 
