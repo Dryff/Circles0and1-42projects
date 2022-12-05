@@ -6,23 +6,23 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 10:03:34 by colas             #+#    #+#             */
-/*   Updated: 2022/11/28 14:26:40 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/05 01:35:03 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char			*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char		*str;
 	size_t		i;
 
 	i = 0;
-    if (len + start > ft_strlen((char *)s))
-        len = ft_strlen((char *)s) - start;
+	if (len + start > ft_strlen((char *)s))
+		len = ft_strlen((char *)s) - start;
 	str = malloc(sizeof(char) * len + 1);
-    if (!str)
-        return (NULL);
+	if (!str)
+		return (NULL);
 	if (start >= ft_strlen((char *)s))
 		return (str);
 	if (str == NULL)
@@ -38,8 +38,8 @@ char			*ft_substr(char const *s, unsigned int start, size_t len)
 
 static int	ft_count_word(char const *s, char c)
 {
-	int i;
-	int word;
+	int		i;
+	int		word;
 
 	i = 0;
 	word = 0;
@@ -70,20 +70,7 @@ static int	ft_size_word(char const *s, char c, int i)
 	return (size);
 }
 
-void    free_all(char **strs)
-{
-    int i;
-
-    i = 0;
-	while (strs[i])
-    {
-		free(strs[i]);
-        i++;
-    }
-	free(strs);
-}
-
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		i;
 	int		word;
@@ -94,7 +81,8 @@ char		**ft_split(char const *s, char c)
 	i = 0;
 	j = -1;
 	word = ft_count_word(s, c);
-	if (!(strs = (char **)malloc((word + 1) * sizeof(char *))))
+	strs = (char **)malloc((word + 1) * sizeof(char *));
+	if (!strs)
 		return (NULL);
 	while (++j < word)
 	{
@@ -102,7 +90,7 @@ char		**ft_split(char const *s, char c)
 			i++;
 		size = ft_size_word(s, c, i);
 		strs[j] = ft_substr(s, i, size);
-        if (!strs[j])
+		if (!strs[j])
 			return (free_all(strs), NULL);
 		i += size;
 	}
