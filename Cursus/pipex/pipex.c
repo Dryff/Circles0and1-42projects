@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:56 by colas             #+#    #+#             */
-/*   Updated: 2022/12/05 01:37:00 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/06 20:04:58 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	exec_one(t_pipex pipex, int *fd, char **envp)
+int	exec_one(t_pipex pipex, int *fd, char **envp)
 {
 	char	*pathing;
 	int		i;
 
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		return (error_code("pipeout"));
+		return (error_code("pipeout"), 1);
 	if (dup2(pipex.input, STDIN_FILENO) == -1)
-		return (error_code("inputstdin"));
+		return (error_code("inputstdin"), 1);
 	close(fd[0]);
 	close(fd[1]);
 	close(pipex.input);
@@ -32,24 +32,24 @@ void	exec_one(t_pipex pipex, int *fd, char **envp)
 		if (access(pathing, F_OK) == 0)
 		{
 			if (execve(pathing, pipex.cmd1, envp) == -1)
-				return (perror("cmd1 couldn't be executed"), free(pathing));
+				return (perror("cmd1 couldn't be executed"), free(pathing), 1);
 		}
 		free(pathing);
 		i++;
 	}
 	perror(pipex.cmd1[0]);
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
-void	exec_two(t_pipex pipex, int *fd, char **envp)
+int	exec_two(t_pipex pipex, int *fd, char **envp)
 {
 	char	*pathing;
 	int		i;
 
 	if (dup2(fd[0], STDIN_FILENO) == -1)
-		return (error_code("pipein"));
+		return (error_code("pipein"), 1);
 	if (dup2(pipex.output, STDOUT_FILENO) == -1)
-		return (error_code("outputstdout"));
+		return (error_code("outputstdout"), 1);
 	close(fd[0]);
 	close(fd[1]);
 	close(pipex.output);
@@ -61,13 +61,13 @@ void	exec_two(t_pipex pipex, int *fd, char **envp)
 		if (access(pathing, F_OK) == 0)
 		{
 			if (execve(pathing, pipex.cmd2, envp) == -1)
-				return (perror("cmd2 couldn't be executed"), free(pathing));
+				return (perror("cmd2 couldn't be executed"), free(pathing), 1);
 		}
 		free(pathing);
 		i++;
 	}
 	perror(pipex.cmd2[0]);
-	exit(1);
+	exit(127);
 }
 
 int	exec_hub(t_pipex pipex, char **envp)
@@ -75,6 +75,7 @@ int	exec_hub(t_pipex pipex, char **envp)
 	pid_t	pid1;
 	pid_t	pid2;
 	int		fd[2];
+	int		status;
 
 	if (pipe(fd) == -1)
 		return (perror("Could not create pipe"), 1);
@@ -88,7 +89,11 @@ int	exec_hub(t_pipex pipex, char **envp)
 		return (perror("Could not split processes with fork 2"), 1);
 	if (pid2 == 0)
 		exec_two(pipex, fd, envp);
-	return (0);
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, &status, 0);
+	waitpid(pid2, &status, 0);
+	return (WEXITSTATUS(status));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -101,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 	pipex.input = open(argv[1], O_RDONLY);
 	if (pipex.input == -1)
 		return (error_code("Inputfile"), 1);
-	pipex.output = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0000644);
+	pipex.output = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (pipex.output == -1)
 		return (error_code("Outputfile"), 1);
 	pipex.cmd1 = ft_split(argv[2], ' ');
