@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:56 by colas             #+#    #+#             */
-/*   Updated: 2022/12/07 07:02:15 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/07 13:04:56 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	exec_one(t_pipex pipex, int *fd, char **envp)
 		i++;
 	}
 	perror(pipex.cmd1[0]);
-	exit(EXIT_FAILURE);
+	return (1);
 }
 
 int	exec_two(t_pipex pipex, int *fd, char **envp)
@@ -67,7 +67,7 @@ int	exec_two(t_pipex pipex, int *fd, char **envp)
 		i++;
 	}
 	perror(pipex.cmd2[0]);
-	exit(127);
+	return (1);
 }
 
 int	exec_hub(t_pipex pipex, char **envp)
@@ -89,18 +89,6 @@ int	exec_hub(t_pipex pipex, char **envp)
 		return (perror("Could not split processes with fork 2"), 1);
 	if (pid2 == 0)
 		exec_two(pipex, fd, envp);
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid1, &status, 0);
-	if (status != 0)
-		return (1);
-	waitpid(pid2, &status, 0);
-	if (status != 0)
-	{
-	printf("\ndjslfds\n");
-		return (1);
-	}
-
 	return (0);
 }
 
@@ -118,17 +106,17 @@ int	main(int argc, char **argv, char **envp)
 	if (pipex.output == -1)
 		return (error_code("Outputfile"), 1);
 	pipex.cmd1 = ft_split(argv[2], ' ');
-	if (!pipex.cmd1)
+	if (!pipex.cmd1[0])
 		return (error_code("ft_split1"), 1);
 	pipex.cmd2 = ft_split(argv[3], ' ');
-	if (!pipex.cmd2)
+	if (!pipex.cmd2[0])
 		return (free_all(pipex.cmd1), error_code("ft_split2"), 1);
 	raw_paths = path_finder(envp);
 	pipex.paths = ft_split(raw_paths, ':');
 	if (!pipex.paths)
 		return (free_all(pipex.cmd1), free_all(pipex.cmd2), \
-		error_code("paths"), 1);
-	printf(" > %d", exec_hub(pipex, envp));
+	error_code("paths"), 1);
+	exec_hub(pipex, envp);
 	return (free_all(pipex.cmd1), free_all(pipex.cmd2), \
 	free_all(pipex.paths), 0);
 }

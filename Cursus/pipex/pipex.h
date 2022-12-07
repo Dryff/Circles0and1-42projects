@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 15:08:16 by colas             #+#    #+#             */
-/*   Updated: 2022/12/01 15:12:02 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/07 13:23:52 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_pipex
 	char	**cmd1;
 	char	**cmd2;
 	char	**paths;
+	int		res;
 
 }t_pipex;
 
