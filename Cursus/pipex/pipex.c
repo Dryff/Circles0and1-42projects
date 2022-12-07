@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:56 by colas             #+#    #+#             */
-/*   Updated: 2022/12/06 20:04:58 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/07 07:02:15 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,16 @@ int	exec_hub(t_pipex pipex, char **envp)
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, &status, 0);
+	if (status != 0)
+		return (1);
 	waitpid(pid2, &status, 0);
-	return (WEXITSTATUS(status));
+	if (status != 0)
+	{
+	printf("\ndjslfds\n");
+		return (1);
+	}
+
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -120,7 +128,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!pipex.paths)
 		return (free_all(pipex.cmd1), free_all(pipex.cmd2), \
 		error_code("paths"), 1);
-	exec_hub(pipex, envp);
+	printf(" > %d", exec_hub(pipex, envp));
 	return (free_all(pipex.cmd1), free_all(pipex.cmd2), \
 	free_all(pipex.paths), 0);
 }
