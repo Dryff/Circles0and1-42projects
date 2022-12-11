@@ -1,5 +1,5 @@
 NAME		=	pipex
-HEADER		=	pipex.h
+HEADER		=	pipex.h ft_err_printf/ft_printf.h
 
 SRCS		= 	pipex.c ft_split.c pipex_utils.c check.c \
 				ft_err_printf/ft_putstr_int.c ft_err_printf/ft_printf.c \
@@ -19,7 +19,7 @@ $(NAME):	print $(OBJS) compile
 compile:	
 			@gcc -o $(NAME) ft_split.o pipex.o pipex_utils.o check.o ft_err_printf/ft_print_hexa.o ft_err_printf/ft_putnbr_u.o ft_err_printf/ft_putnbr.o ft_err_printf/ft_putstr_int.o ft_err_printf/ft_printf.o 
 
-$(OBJS): %.o:%.c ${HEADER}
+$(OBJS): %.o:%.c ${HEADER} Makefile
 			@echo "\033[36m compiling: $<"
 			@$(CC) $(CFLAGS) -c $< -o $@
 

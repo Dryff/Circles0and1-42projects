@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 16:09:56 by colas             #+#    #+#             */
-/*   Updated: 2022/12/09 10:12:41 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/11 11:38:28 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int	exec_one(t_pipex pipex, int *fd, char **envp)
 {
 	char	*pathing;
+	char	*slashed;
 	int		i;
 
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
@@ -28,11 +29,12 @@ int	exec_one(t_pipex pipex, int *fd, char **envp)
 	i = 0;
 	while (pipex.paths[i])
 	{
-		pathing = ft_strjoin(pipex.paths[i], "/");
-		pathing = ft_strjoin(pathing, pipex.cmd1[0]);
+		slashed = ft_strjoin(pipex.paths[i], "/");
+		pathing = ft_strjoin(slashed, pipex.cmd1[0]);
+		free(slashed);
 		if (access(pathing, F_OK) == 0)
 			if (execve(pathing, pipex.cmd1, envp) == -1)
-				return (1);
+				return (free(pathing), 1);
 		free(pathing);
 		i++;
 	}
@@ -42,6 +44,7 @@ int	exec_one(t_pipex pipex, int *fd, char **envp)
 int	exec_two(t_pipex pipex, int *fd, char **envp)
 {
 	char	*pathing;
+	char	*slashed;
 	int		i;
 
 	if (dup2(fd[0], STDIN_FILENO) == -1)
@@ -54,8 +57,9 @@ int	exec_two(t_pipex pipex, int *fd, char **envp)
 	i = 0;
 	while (pipex.paths[i])
 	{
-		pathing = ft_strjoin(pipex.paths[i], "/");
-		pathing = ft_strjoin(pathing, pipex.cmd2[0]);
+		slashed = ft_strjoin(pipex.paths[i], "/");
+		pathing = ft_strjoin(slashed, pipex.cmd2[0]);
+		free(slashed);
 		if (access(pathing, F_OK) == 0)
 			if (execve(pathing, pipex.cmd2, envp) == -1)
 				return (free(pathing), 1);
@@ -111,5 +115,9 @@ int	main(int argc, char **argv, char **envp)
 	pipex.paths = get_paths(envp);
 	check_hub(&pipex, argv);
 	exec_hub(pipex, envp);
-	return (0);
+	if (pipex.input != -1)
+		free_all(pipex.cmd1);
+	if (pipex.output != -1)
+		free_all(pipex.cmd2);
+	return (free_all(pipex.paths), 0);
 }
