@@ -1,11 +1,14 @@
 NAME		=	pipex
 HEADER		=	pipex.h
 
-SRCS		= 	pipex.c ft_split.c pipex_utils.c error_management.c
+SRCS		= 	pipex.c ft_split.c pipex_utils.c check.c \
+				ft_err_printf/ft_putstr_int.c ft_err_printf/ft_printf.c \
+				ft_err_printf/ft_print_hexa.c ft_err_printf/ft_putnbr_u.c ft_err_printf/ft_putnbr.c \
+				
 
 OBJS		:= $(SRCS:%.c=%.o)
 
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
 all:		$(NAME)
@@ -14,18 +17,18 @@ $(NAME):	print $(OBJS) compile
 			@echo "\033[31m > Done!"
 
 compile:	
-			@gcc -o pipex ft_split.o pipex.o pipex_utils.o error_management.o
+			@gcc -o $(NAME) ft_split.o pipex.o pipex_utils.o check.o ft_err_printf/ft_print_hexa.o ft_err_printf/ft_putnbr_u.o ft_err_printf/ft_putnbr.o ft_err_printf/ft_putstr_int.o ft_err_printf/ft_printf.o 
 
-$(OBJS): %.o:%.c ${HEADER} Makefile
+$(OBJS): %.o:%.c ${HEADER}
 			@echo "\033[36m compiling: $<"
-			@$(CC) $(CC_FLAGS) -c $< -o $@
+			@$(CC) $(CFLAGS) -c $< -o $@
 
 print:		
 			@echo "\033[31m ~ Compiling pipex ~"
 
 clean:
 	@echo "\033[31m > Removed all objects files <"
-	@rm -rf *.o
+	@rm -rf *.o ft_err_printf/*.o
 
 fclean: clean
 	@echo "\033[31m * Removed $(HEADER) *"	
@@ -33,4 +36,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY:		all clean fclean re bonus
+.PHONY:		all clean fclean re

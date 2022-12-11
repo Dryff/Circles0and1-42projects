@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 15:21:55 by colas             #+#    #+#             */
-/*   Updated: 2022/12/01 15:21:57 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/08 18:03:49 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,17 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	free_all(char **strs)
 {
-	write(fd, s, ft_strlen(s));
+	int	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)

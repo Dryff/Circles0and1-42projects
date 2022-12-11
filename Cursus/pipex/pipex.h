@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 15:08:16 by colas             #+#    #+#             */
-/*   Updated: 2022/12/07 13:23:52 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/09 18:55:14 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-# include <stdio.h>
 
 typedef struct s_pipex
 {
@@ -28,7 +27,7 @@ typedef struct s_pipex
 	char	**paths;
 	int		res;
 
-}t_pipex;
+}				t_pipex;
 
 size_t	ft_strlen(char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -38,5 +37,6 @@ void	free_all(char **strs);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*path_finder(char **envp);
 void	error_code(char *str);
+int		check_hub(t_pipex *pipex, char **argv);
 
 #endif
