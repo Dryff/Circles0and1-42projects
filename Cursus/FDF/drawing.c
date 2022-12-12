@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 11:12:33 by colas             #+#    #+#             */
-/*   Updated: 2022/12/12 18:22:21 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/12 21:01:30 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ void	draw_map(t_map map, t_data img)
 {
 	int y;
 	int x;
-	int j;
+	int scale;
 
-	j = 0;
 	y = 0;
+	scale = 10;
 	while (y < map.row_nbr)
 	{
 		x = 0;
 		while (x < map.line[y].size)
 		{
 			if (map.line[y].arr[x] == 0)
-				my_mlx_pixel_put(&img, x + 600, y + 332, 0x000000FF);
-			else if (map.line[y].arr[x] == 10)
-				my_mlx_pixel_put(&img, x + 600, y + 332, 0x00FF0000);
+				my_mlx_pixel_put(&img, x * scale + 500, y * scale + 300, 0x0000FF00);
+			else if (map.line[y].arr[x] != 0)
+				my_mlx_pixel_put(&img, x * scale + 500, y * scale + 300, 0x00FF0000);
 			x++;
 		}
 		y++;
