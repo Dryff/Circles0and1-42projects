@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_to_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 09:46:50 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/12 17:39:34 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/13 14:57:09 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ static int	ft_size_word(char const *s, char c, int i)
 	return (size);
 }
 
-t_array ft_split_to_int(char const *s, char c)
+t_array	ft_split_to_int(char const *s, char c)
 {
 	int		i;
 	int		word;
 	t_array	line;
 	int		j;
-	int 	size;
+	int		size;
 
 	i = 0;
 	j = -1;

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:57:56 by colas             #+#    #+#             */
-/*   Updated: 2022/12/12 18:04:12 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/13 17:01:10 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-#include "mlx/mlx.h"
-#include "ft_err_printf/ft_printf.h"
-#include "GNL/get_next_line.h"
-#include <fcntl.h>
+# include "mlx/mlx.h"
+# include "ft_err_printf/ft_printf.h"
+# include "GNL/get_next_line.h"
+# include <fcntl.h>
 
-typedef struct	s_data 
+typedef struct s_data
 {
 	void	*img;
 	char	*addr;
@@ -27,22 +27,24 @@ typedef struct	s_data
 	int		endian;
 }				t_data;
 
-typedef struct s_point
+typedef struct s_pos
 {
-	int	x;
-	int y;
-}				t_point;
+	int		x;
+	int		y;
+	int		color;
+	int		scale;
+}				t_pos;
 
 typedef struct s_array
 {
-	int	*arr;
-	int	size;
+	int		*arr;
+	int		size;
 }				t_array;
 
 typedef struct s_map
 {
-	t_array *line;
-	int row_nbr;
+	t_array	*line;
+	int		row_nbr;
 }				t_map;
 
 int		ft_atoi(const char *str);
