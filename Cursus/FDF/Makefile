@@ -1,7 +1,7 @@
 NAME		=	fdf
 HEADER		=	fdf.h 
 
-SRCS		= 	fdf.c fdf_utils.c ft_split_to_int.c drawing.c\
+SRCS		= 	fdf.c fdf_utils.c ft_split_to_int.c drawing.c drawing_utils.c\
 				GNL/get_next_line.c GNL/get_next_line_utils.c \
 				ft_err_printf/ft_print_hexa.c ft_err_printf/ft_printf.c ft_err_printf/ft_putnbr_u.c ft_err_printf/ft_putnbr.c ft_err_printf/ft_putstr_int.c 
 
@@ -34,7 +34,7 @@ clean:
 
 fclean: clean
 	@echo "\033[31m * Removed $(HEADER) *"	
-	@rm -rf $(NAME)
+	@rm -rf $(NAME) mlx/libmlx.a
 
 re: fclean all
 
