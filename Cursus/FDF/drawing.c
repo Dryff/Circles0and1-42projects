@@ -3,115 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 11:12:33 by colas             #+#    #+#             */
-/*   Updated: 2022/12/13 17:27:48 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/15 09:24:46 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include "mlx.h"
 
-#define MAX(a, b) (a > b ? a : b)
-#define MOD(a) ((a < 0) ? -a : a)
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void render_isometric(float *x, float *y, int z)
 {
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	*x = (*x - *y) * cos(0.5);
+	*y = (*x + *y) * sin(0.5) - z;
 }
 
-void	draw_map(t_map map, t_data img)
-{
-	int		y;
-	int		x;
-	int		scale;
-
-	y = 0;
-	scale = 15;
-	while (y < map.row_nbr)
-	{
-		x = 0;
-		while (x < map.line[y].size)
-		{
-			if (map.line[y].arr[x] == 0)
-				my_mlx_pixel_put(&img, x * scale + 500, \
-				y * scale + 300, 0x0000FF00);
-			else if (map.line[y].arr[x] != 0)
-				my_mlx_pixel_put(&img, x * scale + 500, \
-				y * scale + 300, 0x00FF0000);
-			x++;
-		}
-		y++;
-	}
-}
-
-void	bresenham(t_pos pos, float x1, float y1, t_data img)
+void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 {
 	float	x_step;
 	float	y_step;
 	int		max;
 
-	pos.scale = 15;
-	pos.x *= pos.scale;
-	x1 *= pos.scale;
-	pos.y *= pos.scale;
-	y1 *= pos.scale;
-
+	pos.z = fdf.map.line[(int)pos.y].arr[(int)pos.x];
+	pos.z1 = fdf.map.line[(int)y1].arr[(int)x1];
+	pos.color = get_color(pos);
 	x_step = x1 - pos.x;
 	y_step = y1 - pos.y;
+	pos.xy_scale = 15;
+	pos.x *= pos.xy_scale;
+	x1 *= pos.xy_scale;
+	pos.y *= pos.xy_scale;
+	y1 *= pos.xy_scale;
+	printf("res : %f", (pos.x - pos.y) * cos(0.5));
+	// render_isometric(&pos.x, &pos.y, pos.z);
+	// render_isometric(&x1, &y1, pos.z1);
 	max = MAX(MOD(x_step), MOD(y_step));
 	x_step /= max;
 	y_step /= max;
 	while ((int)(pos.x - x1) || (int)(pos.y - y1))
 	{
-		my_mlx_pixel_put(&img, (int)pos.x + 500, (int)pos.y + 300, pos.color);
+		my_mlx_pixel_put(&fdf, (int)pos.x + 500, (int)pos.y + 300, pos.color);
 		pos.x += x_step;
 		pos.y += y_step;
 	}
 }
 
-void	draw_lines(t_map map, t_data img)
+void	draw_lines(t_data fdf)
 {
 	t_pos	pos;
-	(void) img;
+	int x;
+	int y;
 
+	y = 0;
 	pos.y = 0;
-	while (pos.y < map.row_nbr)
+	while (y < fdf.map.row_nbr)
 	{
+		x = 0;
 		pos.x = 0;
-		while (pos.x < map.line[pos.y].size)
-		{	
-			if (map.line[pos.y].arr[pos.x] == 10)
-				pos.color = 0x00FF0000;
-			else
-				pos.color = 0x000000FF;
-				if (pos.x < map.line[pos.y].size - 1)
-					bresenham(pos, pos.x + 1, pos.y, img);
-				if (pos.y < map.row_nbr - 1)
-					bresenham(pos, pos.x, pos.y + 1, img);
-				pos.x++;
+		while (x < fdf.map.line[y].size)
+		{		
+				if (x < fdf.map.line[y].size - 1)
+					bresenham(pos, x + 1, y, fdf);
+				if (y < fdf.map.row_nbr - 1)
+					bresenham(pos, x, y + 1, fdf);
+				x++;
+				pos.x = x;
 		}
-		pos.y++;
+		y++;
+		printf("\n");
+		pos.y = y;
 	}
 }
 
 void	mlx_draw(t_map map)
 {
-	t_data	img;
+	t_data	fdf;
 	void	*mlx;
 	void	*mlx_win;
 
 	mlx = mlx_init();
 	mlx_win = mlx_new_window(mlx, 1200, 675, "SynthWave");
-	img.img = mlx_new_image(mlx, 1200, 675);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, \
-	&img.line_length, &img.endian);
-	draw_map(map, img);
-	draw_lines(map, img);
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
+	fdf.img = mlx_new_image(mlx, 1200, 675);
+	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, \
+	&fdf.line_length, &fdf.endian);
+	fdf.map = map;
+	draw_lines(fdf);
+	mlx_put_image_to_window(mlx, mlx_win, fdf.img, 0, 0);
 	mlx_loop(mlx);
 }
