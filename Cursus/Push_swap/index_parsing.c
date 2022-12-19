@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   index_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 20:07:31 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/15 20:38:56 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/19 12:15:41 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_ps.h"
+
+int	general_sort(t_struct *data)
+{
+	if (data->a_size < 2)
+		return (0);
+	else if (data->a_size == 3)
+		return (sort_three(data), 0);
+	else if (data->a_size == 5)
+		return (sort_five(data), 0);
+	else
+	{
+		binary_index_parse(data);
+		radix_sort(data);	
+	}
+	return (0);
+}
 
 static	long	dec_to_bin(long n)
 {
@@ -35,9 +51,9 @@ static	int	get_index_sorted(t_struct *data, int nb)
 	int	i;
 
 	i = 0;
-	while (i < data->nbrs_size)
+	while (i < data->nb_size)
 	{
-		if (nb == data->nbrs[i])
+		if (nb == data->nb_sort[i])
 			return (i);
 		i++;
 	}

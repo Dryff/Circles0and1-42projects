@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   radix.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 20:30:29 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/15 20:59:41 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/17 15:42:03 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	radix_sort(t_struct *data)
 	index = 0;
 	while (!is_sort(data))
 	{
-		while (i < data->nbrs_size)
+		while (i < data->nb_size)
 		{
 			if (!get_index(data->a_stack[0], index))
 				pb(data);

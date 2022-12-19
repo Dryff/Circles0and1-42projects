@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_data_str.c                                     :+:      :+:    :+:   */
+/*   get_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 19:08:15 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/15 19:45:59 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/17 15:59:49 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,32 @@ static	size_t	get_size(char *str)
 	count = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ')
+		while (str[i] && str[i] == ' ')
+			i++;
+		if (str[i])
 			count++;
-		i++;
+		while (str[i] && str[i] != ' ')
+			i++;
 	}
-	return (count + 1);
+	return (count);
 }
 
-t_struct	get_data_str(char *str)
+t_struct	get_str(char *str)
 {
 	size_t		i;
 	size_t		j;
 	size_t		size;
 	t_struct	data;
 
+	(void) size;
+	(void) str;
 	i = 0;
 	j = 0;
 	size = get_size(str);
-	data.a_stack = ft_calloc(sizeof(int), size);
-	data.b_stack = ft_calloc(sizeof(int), size);
-	data.nbrs = ft_calloc(sizeof(int), size);
-	if (!data.a_stack || !data.b_stack || !data.nbrs)
+	data.a_stack = ft_calloc(sizeof(int), size + 1);
+	data.b_stack = ft_calloc(sizeof(int), size + 1);
+	data.nb_sort = ft_calloc(sizeof(int), size + 1);
+	if (!data.a_stack || !data.b_stack || !data.nb_sort)
 		return (data);
 	while (j < size)
 	{
@@ -58,9 +63,30 @@ t_struct	get_data_str(char *str)
 		i = get_next_i(str, i);
 		j++;
 	}
-	data.nbrs_size = size;
+	data.nb_size = size;
 	data.a_size = size;
 	data.b_size = 0;
-	sort_tab(&data);
+	return (data);
+}
+
+t_struct	get_args(int argc, char **str)
+{
+	int			i;
+	t_struct	data;
+
+	i = 1;
+	data.a_stack = ft_calloc(sizeof(int), (argc));
+	data.b_stack = ft_calloc(sizeof(int), (argc));
+	data.nb_sort = ft_calloc(sizeof(int), (argc));
+	if (!data.a_stack || !data.b_stack || !data.nb_sort)
+		return (data);
+	data.a_size = argc - 1;
+	data.nb_size = argc - 1;
+	data.b_size = 0;
+	while (i < argc)
+	{
+		data.a_stack[i - 1] = ft_atoi(str[i]);
+		i++;
+	}
 	return (data);
 }

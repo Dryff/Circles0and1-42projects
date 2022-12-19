@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:37:26 by colas             #+#    #+#             */
-/*   Updated: 2022/12/05 20:06:53 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/19 12:09:52 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,55 @@ int	ft_atoi(const char *str)
 	return ((int)nb);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	assign_index(t_struct *ps)
 {
-	if (s)
+	int	i;
+	int	j;
+	int	temp;
+
+	i = -1;
+	j = 0;
+	while (++i < ps->a_size)
+		ps->nb_sort[i] = ps->a_stack[i];
+	i = 0;
+	while (i < ps->a_size)
 	{
-		while (*s)
-			write(fd, s++, 1);
+		j = i + 1;
+		while (j < ps->a_size)
+		{
+			if (ps->nb_sort[j] < ps->nb_sort[i])
+			{
+				temp = ps->nb_sort[i];
+				ps->nb_sort[i] = ps->nb_sort[j];
+				ps->nb_sort[j] = temp;
+			}
+			j++;
+		}
+		i++;
 	}
 }
 
-int	ft_isdigit(int c)
+ static	void	ft_bzero(void *str, size_t n)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char *)(str + i) = 0;
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t bits, size_t size)
+{
+	void	*space;
+
+	if (bits && size > SIZE_MAX / bits)
+		return (0);
+	space = (void *)malloc(size * bits);
+	if (!space)
+		return (0);
+	ft_bzero(space, size * bits);
+	return (space);
 }

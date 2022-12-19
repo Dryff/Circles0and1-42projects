@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tabs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 19:16:09 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/15 19:59:49 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/17 15:43:53 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	print_tabs(t_struct *data)
 	while (i < data->b_size)
 	{
 		printf("b[%d] = %d\n", i, data->b_stack[i]);
+		i++;
+	}
+	i = 0;
+	printf("\n");
+	while (i < data->nb_size)
+	{
+		printf("nb_sort[%d] = %d\n", i, data->nb_sort[i]);
 		i++;
 	}
 }

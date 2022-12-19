@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_small.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 21:03:01 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/15 21:12:19 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/18 11:49:10 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static	int	get_number_above(t_struct *data, int tmp)
 	int	i;
 
 	i = 0;
-	if ((data->nbrs[data->nbrs_size - 1]) == tmp)
-		return (data->nbrs[0]);
-	while (data->nbrs[i] != tmp)
+	if ((data->nb_sort[data->nb_size - 1]) == tmp)
+		return (data->nb_sort[0]);
+	while (data->nb_sort[i] != tmp)
 		i++;
-	return (data->nbrs[i + 1]);
+	return (data->nb_sort[i + 1]);
 }
 
 int	sort_three(t_struct *data)
@@ -100,6 +100,6 @@ int	sort_five(t_struct *data)
 	tmp = data->b_stack[0];
 	push_number_to_top(data, get_number_above(data, tmp));
 	pa(data);
-	push_number_to_top(data, data->nbrs[0]);
+	push_number_to_top(data, data->nb_sort[0]);
 	return (0);
 }

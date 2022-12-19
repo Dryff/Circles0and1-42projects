@@ -6,71 +6,110 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:30:38 by colas             #+#    #+#             */
-/*   Updated: 2022/12/05 20:10:42 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/19 12:34:01 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_ps.h" 
 
-void	assign_index(int *nbrs)
+int	check_int(char *str)
 {
-	int i;
-	int j;
-	int temp;
+	int	len;
+
+	len = ft_strlen(str);
+	if (len > 11)
+		return (0);
+	if (len == 11)
+		if (ft_strncmp("-2147483648", str, 11) < 0)
+			return (0);
+	if (len == 10)
+		if (ft_strncmp("2147483647", str, 10) < 0)
+			return (0);
+	return (1);
+}
+
+int	check_int_one_str(char *str, char *max_min, int len)
+{
+	int	i;
+	int	count;
 
 	i = 0;
-	j = 1;
-	while (nbrs[i])
+	count = 0;
+	while (str[i])
 	{
-		while (nbrs[j])
+		if ((str[i] >= '0' && str[i] <= '9') || str[i] == '-')
+			count++;
+		else
+			count = 0;
+		if (count == len)
 		{
-			if (nbrs[j] < nbrs[i])
-			{
-				temp = nbrs[i];
-				nbrs[i] = nbrs[j];
-				nbrs[j] = temp;
-			}
-			j++;
+			if (ft_strncmp(max_min, &str[i - (len - 1)], len) < 0)
+				return (0);
+			break ;
 		}
 		i++;
 	}
-	nbrs[i] = 0;
+	return (1);
 }
 
-int	*check_and_convert(int argc, char **argv)
+int	check_signs(char *str)
 {
-	int i;
-	int j;
-	int *nbrs;
+	int	i;
 
-	nbrs = malloc(sizeof(int*) * argc);
-	if (!nbrs)
-		return(NULL);
-	if (argc < 2)
-			return (ft_putstr_fd("Usage : ./push_swap int1 int2 int3... intn", 2), NULL);
-		i = 1;
-	while (argv[i])
+	i = 0;
+	while (str[i])
 	{
-		j = 0;
-		while (argv[i][j])
-		{
-			if (!ft_isdigit(argv[i][j]))
-				return (ft_putstr_fd("Usage : ./push_swap int1 int2 int3... intn", 2), NULL);
-			nbrs[i] = ft_atoi(argv[i]);
-			j++;
-		}
-	i++;
+		if (str[i] == '-' && (str[i + 1] < '0' || str[i + 1] > '9'))
+			return (0);
+		if ((str[i] >= '0' && str[i] <= '9') && str[i + 1] == '-')
+			return (0);
+		i++;
 	}
-	return (nbrs);
+	return (1);
+}
+
+int	check_str(int argc, char **argv)
+{
+	int	i;
+	int	j;
+
+	if (argc < 2)
+		exit(1);
+	i = 1;
+	if (argc == 2)
+		if (!check_int_one_str(argv[i], "-2147483648", 11) || \
+			!check_int_one_str(argv[i], "2147483647", 10))
+			return (0);
+	if (argc != 2)
+		while (argv[i])
+			if (!check_int(argv[i++]))
+				return (0);
+	i = 0;
+	while (argv[++i])
+	{
+		j = -1;
+		while (argv[i][++j])
+			if (!ft_isdigit(argv[i][j]))
+				return (0);
+		if (!check_signs(argv[i]))
+			return (0);
+	}
+	return (1);
 }
 
 int	main(int argc, char	**argv)
 {
+	t_struct	ps;
 
-	int *nbrs;
-	
-	nbrs = check_and_convert(argc, argv);
-	
-	// nbrs_index = malloc(sizeof(int) * argc)
-	// nbrs_index = assign_index(&argv[1]);
+	if (!check_str(argc, argv))
+		return (ft_putendl("USAGE: ./push_swap int1 int2 int3.. intn"), 1);
+	if (argc == 2)
+		ps = get_str(argv[1]);
+	else
+		ps = get_args(argc, argv);
+	assign_index(&ps);
+	print_tabs(&ps);
+	general_sort(&ps);
+	print_tabs(&ps);
+	return (0);
 }
