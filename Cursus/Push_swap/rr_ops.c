@@ -12,58 +12,58 @@
 
 #include "header_ps.h"
 
-void	ra(t_struct *data)
+void	ra(t_struct *ps)
 {
 	int	tmp;
 	int	i;
 
 	i = 0;
-	tmp = data->a_stack[0];
-	while (i < data->a_size - 1)
+	tmp = ps->a_stack[0];
+	while (i < ps->a_size - 1)
 	{
-		data->a_stack[i] = data->a_stack[i + 1];
+		ps->a_stack[i] = ps->a_stack[i + 1];
 		i++;
 	}
-	data->a_stack[i] = tmp;
-	ft_putendl("ra");
+	ps->a_stack[i] = tmp;
+	ft_putendl_fd("ra", 1);
 }
 
-void	rb(t_struct *data)
+void	rb(t_struct *ps)
 {
 	int	tmp;
 	int	i;
 
 	i = 0;
-	tmp = data->b_stack[0];
-	while (i < data->b_size - 1)
+	tmp = ps->b_stack[0];
+	while (i < ps->b_size - 1)
 	{
-		data->b_stack[i] = data->b_stack[i + 1];
+		ps->b_stack[i] = ps->b_stack[i + 1];
 		i++;
 	}
-	data->b_stack[i] = tmp;
-	ft_putendl("rb");
+	ps->b_stack[i] = tmp;
+	ft_putendl_fd("rb", 1);
 }
 
-void	rr(t_struct *data)
+void	rr(t_struct *ps)
 {
 	int	tmp;
 	int	i;
 
 	i = 0;
-	tmp = data->b_stack[0];
-	while (i < data->b_size - 1)
+	tmp = ps->b_stack[0];
+	while (i < ps->b_size - 1)
 	{
-		data->b_stack[i] = data->b_stack[i + 1];
+		ps->b_stack[i] = ps->b_stack[i + 1];
 		i++;
 	}
-	data->b_stack[i] = tmp;
+	ps->b_stack[i] = tmp;
 	i = 0;
-	tmp = data->a_stack[0];
-	while (i < data->a_size - 1)
+	tmp = ps->a_stack[0];
+	while (i < ps->a_size - 1)
 	{
-		data->a_stack[i] = data->a_stack[i + 1];
+		ps->a_stack[i] = ps->a_stack[i + 1];
 		i++;
 	}
-	data->a_stack[i] = tmp;
-	ft_putendl("rr");
+	ps->a_stack[i] = tmp;
+	ft_putendl_fd("rr", 1);
 }

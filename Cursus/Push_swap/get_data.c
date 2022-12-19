@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_data.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 19:08:15 by cgelin            #+#    #+#             */
-/*   Updated: 2022/12/17 15:59:49 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/19 17:08:15 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,48 +45,51 @@ t_struct	get_str(char *str)
 	size_t		i;
 	size_t		j;
 	size_t		size;
-	t_struct	data;
+	t_struct	ps;
 
-	(void) size;
-	(void) str;
 	i = 0;
 	j = 0;
 	size = get_size(str);
-	data.a_stack = ft_calloc(sizeof(int), size + 1);
-	data.b_stack = ft_calloc(sizeof(int), size + 1);
-	data.nb_sort = ft_calloc(sizeof(int), size + 1);
-	if (!data.a_stack || !data.b_stack || !data.nb_sort)
-		return (data);
+	ps.a_stack = ft_calloc(sizeof(int), size + 1);
+	if (!ps.a_stack)
+		return (free(ps.a_stack), ps);
+	ps.b_stack = ft_calloc(sizeof(int), size + 1);
+	if (!ps.b_stack)
+		return (free(ps.b_stack), free(ps.a_stack), ps);
+	ps.nb_sort = ft_calloc(sizeof(int), size + 1);
+	if (!ps.a_stack)
+		return (free(ps.b_stack), free(ps.a_stack), free(ps.nb_sort), ps);
 	while (j < size)
 	{
-		data.a_stack[j] = ft_atoi(&str[i]);
+		ps.a_stack[j] = ft_atoi(&str[i]);
 		i = get_next_i(str, i);
 		j++;
 	}
-	data.nb_size = size;
-	data.a_size = size;
-	data.b_size = 0;
-	return (data);
+	return (ps.nb_size = size, ps.a_size = size, ps.b_size = 0, ps);
 }
 
 t_struct	get_args(int argc, char **str)
 {
 	int			i;
-	t_struct	data;
+	t_struct	ps;
 
 	i = 1;
-	data.a_stack = ft_calloc(sizeof(int), (argc));
-	data.b_stack = ft_calloc(sizeof(int), (argc));
-	data.nb_sort = ft_calloc(sizeof(int), (argc));
-	if (!data.a_stack || !data.b_stack || !data.nb_sort)
-		return (data);
-	data.a_size = argc - 1;
-	data.nb_size = argc - 1;
-	data.b_size = 0;
+	ps.a_stack = ft_calloc(sizeof(int), argc);
+	if (!ps.a_stack)
+		return (free(ps.a_stack), ps);
+	ps.b_stack = ft_calloc(sizeof(int), argc);
+	if (!ps.b_stack)
+		return (free(ps.b_stack), free(ps.a_stack), ps);
+	ps.nb_sort = ft_calloc(sizeof(int), argc);
+	if (!ps.a_stack)
+		return (free(ps.b_stack), free(ps.a_stack), free(ps.nb_sort), ps);
+	ps.a_size = argc - 1;
+	ps.nb_size = argc - 1;
+	ps.b_size = 0;
 	while (i < argc)
 	{
-		data.a_stack[i - 1] = ft_atoi(str[i]);
+		ps.a_stack[i - 1] = ft_atoi(str[i]);
 		i++;
 	}
-	return (data);
+	return (ps);
 }

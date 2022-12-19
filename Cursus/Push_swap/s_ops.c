@@ -3,56 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   s_ops.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 18:51:05 by colas             #+#    #+#             */
-/*   Updated: 2022/12/19 12:11:32 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/19 17:07:27 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header_ps.h"
 
-void	sa(t_struct *data)
+void	sa(t_struct *ps)
 {
 	int	tmp;
 
-	if (data->a_size > 1)
+	if (ps->a_size > 1)
 	{
-		tmp = data->a_stack[1];
-		data->a_stack[1] = data->a_stack[0];
-		data->a_stack[0] = tmp;
+		tmp = ps->a_stack[1];
+		ps->a_stack[1] = ps->a_stack[0];
+		ps->a_stack[0] = tmp;
 	}
-	ft_putendl("sa");
+	ft_putendl_fd("sa", 1);
 }
 
-void	sb(t_struct *data)
+void	sb(t_struct *ps)
 {
 	int	tmp;
 
-	if (data->b_size > 1)
+	if (ps->b_size > 1)
 	{
-		tmp = data->b_stack[1];
-		data->b_stack[1] = data->b_stack[0];
-		data->b_stack[0] = tmp;
+		tmp = ps->b_stack[1];
+		ps->b_stack[1] = ps->b_stack[0];
+		ps->b_stack[0] = tmp;
 	}
-	ft_putendl("sb");
+	ft_putendl_fd("sb", 1);
 }
 
-void	ss(t_struct *data)
+void	ss(t_struct *ps)
 {
 	int	tmp;
 
-	if (data->b_size > 1)
+	if (ps->b_size > 1)
 	{
-		tmp = data->b_stack[1];
-		data->b_stack[1] = data->b_stack[0];
-		data->b_stack[0] = tmp;
+		tmp = ps->b_stack[1];
+		ps->b_stack[1] = ps->b_stack[0];
+		ps->b_stack[0] = tmp;
 	}
-	if (data->a_size > 1)
+	if (ps->a_size > 1)
 	{
-		tmp = data->a_stack[1];
-		data->a_stack[1] = data->a_stack[0];
-		data->a_stack[0] = tmp;
+		tmp = ps->a_stack[1];
+		ps->a_stack[1] = ps->a_stack[0];
+		ps->a_stack[0] = tmp;
 	}
-	ft_putendl("ss");
+	ft_putendl_fd("ss", 1);
 }

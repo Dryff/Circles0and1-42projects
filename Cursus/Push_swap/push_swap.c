@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:30:38 by colas             #+#    #+#             */
-/*   Updated: 2022/12/19 12:34:01 by colas            ###   ########.fr       */
+/*   Updated: 2022/12/19 17:12:57 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ int	main(int argc, char	**argv)
 	t_struct	ps;
 
 	if (!check_str(argc, argv))
-		return (ft_putendl("USAGE: ./push_swap int1 int2 int3.. intn"), 1);
+		return (ft_putendl_fd("Error", 2), 1);
 	if (argc == 2)
 		ps = get_str(argv[1]);
 	else
 		ps = get_args(argc, argv);
+	if (!check_equal(&ps))
+		return (ft_putendl_fd("Error", 2), 1);
 	assign_index(&ps);
-	print_tabs(&ps);
 	general_sort(&ps);
-	print_tabs(&ps);
-	return (0);
+	return (free(ps.b_stack), free(ps.a_stack), free(ps.nb_sort), 0);
 }
