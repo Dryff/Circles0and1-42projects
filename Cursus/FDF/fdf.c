@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:30:49 by colas             #+#    #+#             */
-/*   Updated: 2022/12/13 16:04:59 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/03 15:44:54 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,20 @@ int	main(int argc, char **argv)
 		return (ft_err_printf("USAGE : ./fdf {MAP_FILE}"), 1);
 	map = get_map(argv[1]);
 	ft_err_printf("row : %d, line : %d\n", map.row_nbr, map.line->size);
-	// int j;
-	// int k;
-	// k = 0;
-	// j = 0;
-	// while (j < 9)
-	// {
-	// 	k = 0;
-	// 	while (k < map.line->size)
-	// 		ft_err_printf("%d", map.line[j].arr[k++]);
-	// 	ft_err_printf("\n");
-	// 	j++;
-	// }
+	int j;
+	int k;
+	k = 0;
+	j = 0;
+	while (j < 9)
+	{
+		k = 0;
+		while (k < map.line->size)
+		{
+			ft_err_printf("%d", map.line[j].arr[k]);
+			ft_err_printf(":%s ", map.line[j].color[k++]);
+		}
+		ft_err_printf("\n");
+		j++;
+	}
 	mlx_draw(map);
 }

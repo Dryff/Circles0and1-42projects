@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:57:56 by colas             #+#    #+#             */
-/*   Updated: 2022/12/15 09:17:13 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/03 16:07:51 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@
 # include <stdio.h>
 
 # define MAX(a, b) (a > b ? a : b)
-# define MOD(a) ((a < 0) ? -a : a)
+# define ABS(a) ((a < 0) ? -a : a)
 
 typedef struct s_array
 {
 	int		*arr;
+	int 	*color;
 	int		size;
 }				t_array;
 
@@ -42,7 +43,14 @@ typedef struct s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	void	*mlx;
+	void	*mlx_win;
 	t_map	map;
+
+	int		offsety;
+	int		offsetx;
+	int		xy_scale;
+	int 	z_scale;
 }				t_data;
 
 typedef struct s_pos
@@ -51,9 +59,9 @@ typedef struct s_pos
 	float	y;
 	int		z;
 	int 	z1;
+
 	int		color;
-	int		xy_scale;
-	int 	z_scale;
+	int		gradient;
 }				t_pos;
 
 int		ft_atoi(const char *str);
@@ -62,6 +70,7 @@ int		ft_isdigit(int c);
 size_t	ft_strlen(char *s);
 void	mlx_draw(t_map map);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int get_color(t_pos pos);
+char 	get_color(t_data *fdf, int *start);
+void render_isometric(float *x, float *y, int z);
 
 #endif

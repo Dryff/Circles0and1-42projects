@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 08:47:18 by colas             #+#    #+#             */
-/*   Updated: 2022/12/15 08:53:16 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/03 15:59:27 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,40 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-int get_color(t_pos pos)
+void render_isometric(float *x, float *y, int z)
 {
-		if (pos.z == 10 || pos.z1 == 10)
-			pos.color = 0x00FF0000;
-		else
-			pos.color = 0x000000FF;
-	return (pos.color);
+	(void) z;
+	*x = (*x - *y) * cos(0.7);
+	*y = (*y + *x) * sin(0.7) - z;
 }
+
+// static int	ft_lerp(int first, int second, double p)
+// {
+// 	if (first == second)
+// 		return (first);
+// 	return ((int)((double)first + (second - first) * p));
+// }
+
+
+// int	ft_get_color(t_pos pos, t_data fdf)
+// {
+// 	int		r;
+// 	int		g;
+// 	int		b;
+// 	float	percent;
+
+// 	(void)fdf;
+// 	(void)pos;
+// 	percent = 0;
+// 	r = ft_lerp((0x00FF0000 >> 16) & 0xFF, (0x000000FF >> 16) & 0xFF, percent);
+// 	g = ft_lerp((0x00FF0000 >> 8) & 0xFF, (0x000000FF >> 8) & 0xFF, percent);
+// 	b = ft_lerp(0x00FF00 & 0xFF, 0x000000FF & 0xFF, percent);
+// 	r *= 10;
+// 	g *= 10;
+// 	b *= 10;
+// 	return ((r << 16) | (g << 8) | b);
+// }
+
+
+
+

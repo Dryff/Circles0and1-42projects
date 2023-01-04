@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:30:38 by colas             #+#    #+#             */
-/*   Updated: 2022/12/19 17:12:57 by cgelin           ###   ########.fr       */
+/*   Updated: 2022/12/20 15:44:09 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	check_str(int argc, char **argv)
 	}
 	return (1);
 }
+
+#include <stdio.h>
 
 int	main(int argc, char	**argv)
 {
