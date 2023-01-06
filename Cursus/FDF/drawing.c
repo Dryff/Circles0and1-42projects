@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 11:12:33 by colas             #+#    #+#             */
-/*   Updated: 2023/01/03 16:13:12 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/04 14:01:57 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 	float	x_step;
 	float	y_step;
 	int		max;
-	int start[2];
 
 	pos.z = fdf.map.line[(int)pos.y].arr[(int)pos.x];
 	pos.z1 = fdf.map.line[(int)y1].arr[(int)x1];
@@ -33,12 +32,10 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 	max = MAX(ABS(x_step), ABS(y_step));
 	x_step /= max;
 	y_step /= max;
-	start[0] = pos.x;
-	start[1] = pos.y;
-	
 	while ((int)(pos.x - x1) || (int)(pos.y - y1))
 	{
-		my_mlx_pixel_put(&fdf, (int)pos.x + fdf.offsetx, (int)pos.y + fdf.offsety, fdf.map.line[start[1]].color[start[0]]);
+		my_mlx_pixel_put(&fdf, (int)pos.x + fdf.offsetx, \
+		(int)pos.y + fdf.offsety, 0xFFFFFFFF);
 		pos.x += x_step;
 		pos.y += y_step;
 	}
@@ -47,8 +44,8 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 void	draw_lines(t_data fdf)
 {
 	t_pos	pos;
-	int x;
-	int y;
+	int		x;
+	int		y;
 
 	y = 0;
 	pos.y = 0;
@@ -59,19 +56,19 @@ void	draw_lines(t_data fdf)
 		pos.x = 0;
 		while (x < fdf.map.line[y].size)
 		{		
-				if (x < fdf.map.line[y].size - 1)
-					bresenham(pos, x + 1, y, fdf);
-				if (y < fdf.map.row_nbr - 1)
-					bresenham(pos, x, y + 1, fdf);
-				x++;
-				pos.x = x;
+			if (x < fdf.map.line[y].size - 1)
+				bresenham(pos, x + 1, y, fdf);
+			if (y < fdf.map.row_nbr - 1)
+				bresenham(pos, x, y + 1, fdf);
+			x++;
+			pos.x = x;
 		}
 		y++;
 		pos.y = y;
 	}
 }
 
-int get_keys(int key, t_data *fdf)
+int	get_keys(int key, t_data *fdf)
 {
 	if (key == 53)
 	{
@@ -82,7 +79,7 @@ int get_keys(int key, t_data *fdf)
 	return (0);
 }
 
-int ft_close(t_data *fdf)
+int	ft_close(t_data *fdf)
 {
 	mlx_destroy_image(fdf->mlx, fdf->img);
 	mlx_destroy_window(fdf->mlx, fdf->mlx_win);
@@ -108,4 +105,3 @@ void	mlx_draw(t_map map)
 	mlx_put_image_to_window(fdf.mlx, fdf.mlx_win, fdf.img, 0, 0);
 	mlx_loop(fdf.mlx);
 }
-

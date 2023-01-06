@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_to_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 09:46:50 by cgelin            #+#    #+#             */
-/*   Updated: 2023/01/03 16:15:46 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/06 14:56:21 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,26 +118,69 @@ char *get_word(const char *s, int i)
 	return (str);
 }
 
-int ft_split_hex_color(const char *s, int i)
+int	base_pos(char c, char *base)
 {
-	char *str;
-	int j;
+	int	i;
 
-	str = malloc(8 * sizeof(char));
+	i = 0;
+	while (base[i])
+	{
+		if (base[i] == c)
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+int	ahextoi(char *str)
+{
+	int	i;
+	int	nb;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || \
+			str[i] == '\v' || str[i] == '\f' || str[i] == '\r' )
+		i++;
+	nb = 0;
+	while (str[i])
+	{
+		nb = nb * 16 + base_pos(str[i], "0123456789ABCDEF");
+		i++;
+	}
+	return (nb);
+}
+
+int	ft_split_hex_color(const char *s, int i)
+{
+	char	*str;
+	int		j;
+	int		count;
+
+	j = i;
+	count = 0;
+	while (s[j] && s[j - 1] != ',')
+	{
+		if (s[j] == ' ')
+			return (0);
+		j++;
+	}
+	if (s[j] == 0)
+		return (0);
+	while (s[j] && s[j++] != ' ')
+		count++;
+	str = malloc(count * sizeof(char));
 	if (!str)
 		return (0);
-	while (s[i - 1] != ',')
-		i++;
+	i+=4;
 	j = 0;
-	while (j < 8)
+	while (s[i] != ' ')
 	{
 		str[j] = s[i];
 		i++;
 		j++;
 	}
 	str[j] = 0;
-	printf("%ld", strtol(str, 0, 16));
-	return (1);
+	return (ahextoi(str));
 }
 
 t_array	ft_split_to_int(char const *s, char c)
@@ -154,7 +197,9 @@ t_array	ft_split_to_int(char const *s, char c)
 	line.arr = malloc(word * sizeof(int));
 	if (!line.arr)
 		exit(1);
-	line.color = malloc(word * sizeof(char*));
+	line.color = malloc(word * sizeof(int));
+	if (!line.color)
+		exit(1);
 	while (++j < word)
 	{
 		while (s[i] == c)
@@ -166,5 +211,5 @@ t_array	ft_split_to_int(char const *s, char c)
 		while (s[i] != c && s[i])
 			i++;
 	}
-	return (line.color[j] = 0, line.size = word, line);
+	return (line.size = word, line);
 }

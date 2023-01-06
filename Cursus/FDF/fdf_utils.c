@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:47:16 by colas             #+#    #+#             */
-/*   Updated: 2023/01/03 11:36:20 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/04 10:52:14 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_isdigit(int c)
 
 size_t	ft_strlen(char *s)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])

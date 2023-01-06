@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:30:49 by colas             #+#    #+#             */
-/*   Updated: 2023/01/03 15:44:54 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/06 15:04:13 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,17 @@ int	main(int argc, char **argv)
 	int k;
 	k = 0;
 	j = 0;
-	while (j < 9)
+	while (j < 33)
 	{
 		k = 0;
 		while (k < map.line->size)
 		{
 			ft_err_printf("%d", map.line[j].arr[k]);
-			ft_err_printf(":%s ", map.line[j].color[k++]);
+			ft_err_printf("%s", map.line[j].color[k]);
+			k++;
 		}
-		ft_err_printf("\n");
+		printf("%d\n", j);
 		j++;
 	}
-	mlx_draw(map);
+	// mlx_draw(map);
 }

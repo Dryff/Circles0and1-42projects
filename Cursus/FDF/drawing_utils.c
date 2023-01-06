@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 08:47:18 by colas             #+#    #+#             */
-/*   Updated: 2023/01/03 15:59:27 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/04 10:50:36 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void render_isometric(float *x, float *y, int z)
+void	render_isometric(float *x, float *y, int z)
 {
 	(void) z;
 	*x = (*x - *y) * cos(0.7);
@@ -33,7 +33,6 @@ void render_isometric(float *x, float *y, int z)
 // 		return (first);
 // 	return ((int)((double)first + (second - first) * p));
 // }
-
 
 // int	ft_get_color(t_pos pos, t_data fdf)
 // {
@@ -53,7 +52,3 @@ void render_isometric(float *x, float *y, int z)
 // 	b *= 10;
 // 	return ((r << 16) | (g << 8) | b);
 // }
-
-
-
-
