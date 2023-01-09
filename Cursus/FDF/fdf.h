@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:57:56 by colas             #+#    #+#             */
-/*   Updated: 2023/01/09 11:27:14 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 15:50:45 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_data
 	int		offsety;
 	int		offsetx;
 	int		xy_scale;
-	int 	z_scale;
+	int		z_scale;
 }				t_data;
 
 typedef struct s_pos
@@ -58,7 +58,7 @@ typedef struct s_pos
 	float	x;
 	float	y;
 	int		z;
-	int 	z1;
+	int		z1;
 	int		tab_x;
 	int		tab_y;
 
@@ -72,9 +72,11 @@ int		ft_isdigit(int c);
 size_t	ft_strlen(char *s);
 void	mlx_draw(t_map map);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int 	get_color(t_pos pos, t_data fdf);
-void 	render_isometric(float *x, float *y, int z);
+int		get_color(t_pos pos, t_data fdf);
+void	render_isometric(float *x, float *y, int z);
 int		ft_split_hex_color(const char *s, int i);
-int	ft_close(t_data *fdf);
+int		ft_close(t_data *fdf);
+void	draw_lines(t_data fdf);
+int		get_keys(int key, t_data *fdf);
 
 #endif

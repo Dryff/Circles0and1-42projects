@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 08:47:18 by colas             #+#    #+#             */
-/*   Updated: 2023/01/08 09:40:52 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:56:58 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,17 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void render_isometric(float *x, float *y, int z)
+void	render_isometric(float *x, float *y, int z)
 {
 	(void) z;
 	*x = (*x - *y) * cos(0.5);
 	*y = (*y + *x) * sin(0.5) - z;
 }
 
-int get_color(t_pos pos, t_data fdf)
-{
-	// printf("x : %d, y : %d color : %d\n", pos.tab_x, pos.tab_y, fdf.map.line[pos.tab_y].color[pos.tab_x]);
-	return (fdf.map.line[pos.tab_y].color[pos.tab_x]);
-}
+// int	get_color(t_pos pos, t_data fdf)
+// {
+	
+// }
 
 // static int	ft_lerp(int first, int second, double p)
 // {

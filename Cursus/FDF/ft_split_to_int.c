@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_to_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 09:46:50 by cgelin            #+#    #+#             */
-/*   Updated: 2023/01/09 11:20:44 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:53:20 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,12 @@ t_array	ft_split_to_int(char const *s, char c)
 	line.arr = malloc(word * sizeof(int));
 	if (!line.arr)
 		exit(1);
-	line.color = malloc(word * sizeof(int));
-	if (!line.color)
-		exit(1);
 	while (++j < word)
 	{
 		while (s[i] == c)
 			i++;
 		size = ft_size_word(s, c, i);
 		line.arr[j] = ft_atoi(ft_substr(s, i, size));
-		line.color[j] = ft_split_hex_color(s, i);
 		i += size;
 		while (s[i] != c && s[i])
 			i++;

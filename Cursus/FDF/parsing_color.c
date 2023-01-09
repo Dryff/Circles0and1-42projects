@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_color.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 10:16:37 by colas             #+#    #+#             */
-/*   Updated: 2023/01/09 10:29:01 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 13:46:30 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "fdf.h"
 
@@ -66,7 +65,7 @@ int	ft_split_hex_color(const char *s, int i)
 	str = malloc(count * sizeof(char));
 	if (!str)
 		return (0);
-	i+=4;
+	i += 4;
 	j = 0;
 	while (s[i] != ' ')
 	{
@@ -74,6 +73,5 @@ int	ft_split_hex_color(const char *s, int i)
 		i++;
 		j++;
 	}
-	str[j] = 0;
-	return (ahextoi(str));
+	return (str[j] = 0, ahextoi(str));
 }

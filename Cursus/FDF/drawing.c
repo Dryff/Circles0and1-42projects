@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 11:12:33 by colas             #+#    #+#             */
-/*   Updated: 2023/01/09 11:26:39 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 15:50:13 by cgelin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 	while ((int)(pos.x - x1) || (int)(pos.y - y1))
 	{
 		my_mlx_pixel_put(&fdf, (int)pos.x + fdf.offsetx, \
-		(int)pos.y + fdf.offsety, get_color(pos, fdf));
+		(int)pos.y + fdf.offsety, 0xFF00FF);
 		pos.x += x_step;
 		pos.y += y_step;
 	}
@@ -56,7 +56,6 @@ void	draw_lines(t_data fdf)
 
 	y = 0;
 	pos.tab_y = 0;
-	fdf.xy_scale = 10;
 	while (y < fdf.map.row_nbr)
 	{
 		x = 0;
@@ -75,38 +74,20 @@ void	draw_lines(t_data fdf)
 	}
 }
 
-int	get_keys(int key, t_data *fdf)
-{
-	if (key == 53)
-	{
-		mlx_destroy_window(fdf->mlx, fdf->mlx_win);
-		mlx_destroy_image(fdf->mlx, fdf->img);
-		exit(1);
-	}
-	return (0);
-}
-
-int	ft_close(t_data *fdf)
-{
-	mlx_destroy_image(fdf->mlx, fdf->img);
-	mlx_destroy_window(fdf->mlx, fdf->mlx_win);
-	exit(0);
-	return (0);
-}
-
 void	mlx_draw(t_map map)
 {
 	t_data	fdf;
 
 	fdf.offsetx = 570;
 	fdf.offsety = 200;
+	fdf.xy_scale = 10;
 	fdf.mlx = mlx_init();
 	fdf.mlx_win = mlx_new_window(fdf.mlx, 1200, 675, "SynthWave");
 	fdf.img = mlx_new_image(fdf.mlx, 1200, 675);
 	fdf.addr = mlx_get_data_addr(fdf.img, &fdf.bits_per_pixel, \
 	&fdf.line_length, &fdf.endian);
 	fdf.map = map;
-	mlx_key_hook(fdf.mlx_win, get_keys, &fdf);
+	mlx_hook(fdf.mlx_win, 2, 1L << 0, get_keys, &fdf);
 	mlx_hook(fdf.mlx_win, 17, 0, ft_close, &fdf);
 	draw_lines(fdf);
 	mlx_put_image_to_window(fdf.mlx, fdf.mlx_win, fdf.img, 0, 0);
