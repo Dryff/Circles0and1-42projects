@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:57:56 by colas             #+#    #+#             */
-/*   Updated: 2023/01/08 09:04:52 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 11:27:14 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ size_t	ft_strlen(char *s);
 void	mlx_draw(t_map map);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int 	get_color(t_pos pos, t_data fdf);
-void render_isometric(float *x, float *y, int z);
+void 	render_isometric(float *x, float *y, int z);
+int		ft_split_hex_color(const char *s, int i);
+int	ft_close(t_data *fdf);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 09:46:50 by cgelin            #+#    #+#             */
-/*   Updated: 2023/01/08 09:44:48 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 11:20:44 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,104 +85,6 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	unsigned char	*tab;
-	size_t			i;
-
-	if (size != 0 && SIZE_MAX / size < count)
-		return (NULL);
-	i = 0;
-	tab = malloc(size * count);
-	if (!tab)
-		return (NULL);
-	ft_bzero(tab, count * size);
-	return (tab);
-}
-
-char *get_word(const char *s, int i)
-{
-	char *str;
-	int j;
-
-	str = calloc(8, sizeof(char));
-	if (!str)
-		return (NULL);
-		j = 0;
-	while (s[i] != ' ' && s[i] != '\n')
-	{
-		str[j] = s[i];
-		i++;
-		j++;
-	}
-	return (str);
-}
-
-int	base_pos(char c, char *base)
-{
-	int	i;
-
-	i = 0;
-	while (base[i])
-	{
-		if (base[i] == c)
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-int	ahextoi(char *str)
-{
-	int	i;
-	int	nb;
-
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || \
-			str[i] == '\v' || str[i] == '\f' || str[i] == '\r' )
-		i++;
-	nb = 0;
-	while (str[i])
-	{
-		nb = nb * 16 + base_pos(str[i], "0123456789ABCDEF");
-		i++;
-	}
-	return (nb);
-}
-
-int	ft_split_hex_color(const char *s, int i)
-{
-	char	*str;
-	int		j;
-	int		count;
-
-	j = i;
-	count = 0;
-	while (s[j] && s[j - 1] != ',')
-	{
-		if (s[j] == ' ' || s[j] == '\n')
-			return (0xFFFFFF);
-		j++;
-	}
-	if (s[j] == 0)
-		return (0);
-	while (s[j] && s[j++] != ' ')
-		count++;
-	str = malloc(count * sizeof(char));
-	if (!str)
-		return (0);
-	i+=4;
-	j = 0;
-	while (s[i] != ' ')
-	{
-		str[j] = s[i];
-		i++;
-		j++;
-	}
-	str[j] = 0;
-	return (ahextoi(str));
-}
-
 t_array	ft_split_to_int(char const *s, char c)
 {
 	int		i;
@@ -206,13 +108,10 @@ t_array	ft_split_to_int(char const *s, char c)
 			i++;
 		size = ft_size_word(s, c, i);
 		line.arr[j] = ft_atoi(ft_substr(s, i, size));
-		// line.color[j] = ft_split_hex_color(s, i);
-		// ft_err_printf("%d", line.arr[j]);
-		// ft_err_printf(",%d:%d|", line.color[j], j);
+		line.color[j] = ft_split_hex_color(s, i);
 		i += size;
 		while (s[i] != c && s[i])
 			i++;
 	}
-	// printf("\n");
 	return (line.size = word, line);
 }

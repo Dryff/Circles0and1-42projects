@@ -6,12 +6,22 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 11:12:33 by colas             #+#    #+#             */
-/*   Updated: 2023/01/08 09:42:40 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/09 11:26:39 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <inttypes.h>
+#include <math.h>
+
+void	assign_pos(t_pos *pos, t_data fdf, float x1, float y1)
+{
+	pos->z = fdf.map.line[pos->tab_y].arr[pos->tab_x] * 10;
+	pos->z1 = fdf.map.line[(int)y1].arr[(int)x1] * 10;
+	pos->x = pos->tab_x;
+	pos->y = pos->tab_y;
+	pos->x *= fdf.xy_scale;
+	pos->y *= fdf.xy_scale;
+}
 
 void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 {
@@ -19,19 +29,14 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 	float	y_step;
 	int		max;
 
-	pos.z = fdf.map.line[(int)pos.tab_y].arr[(int)pos.tab_x] * 10;
-	pos.z1 = fdf.map.line[(int)y1].arr[(int)x1] * 10;
-	pos.x = pos.tab_x;
-	pos.y = pos.tab_y;
-	pos.x *= fdf.xy_scale;
+	assign_pos(&pos, fdf, x1, y1);
 	x1 *= fdf.xy_scale;
-	pos.y *= fdf.xy_scale;
 	y1 *= fdf.xy_scale;
 	render_isometric(&pos.x, &pos.y, pos.z);
 	render_isometric(&x1, &y1, pos.z1);
 	x_step = x1 - pos.x;
 	y_step = y1 - pos.y;
-	max = MAX(ABS(x_step), ABS(y_step));
+	max = fmax(fabs(x_step), fabs(y_step));
 	x_step /= max;
 	y_step /= max;
 	while ((int)(pos.x - x1) || (int)(pos.y - y1))
@@ -51,7 +56,7 @@ void	draw_lines(t_data fdf)
 
 	y = 0;
 	pos.tab_y = 0;
-	fdf.xy_scale = 1;
+	fdf.xy_scale = 10;
 	while (y < fdf.map.row_nbr)
 	{
 		x = 0;
@@ -74,9 +79,9 @@ int	get_keys(int key, t_data *fdf)
 {
 	if (key == 53)
 	{
-		mlx_destroy_image(fdf->mlx, fdf->img);
 		mlx_destroy_window(fdf->mlx, fdf->mlx_win);
-		exit(0);
+		mlx_destroy_image(fdf->mlx, fdf->img);
+		exit(1);
 	}
 	return (0);
 }
