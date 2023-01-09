@@ -6,7 +6,7 @@
 /*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:57:56 by colas             #+#    #+#             */
-/*   Updated: 2023/01/03 16:07:51 by colas            ###   ########.fr       */
+/*   Updated: 2023/01/08 09:04:52 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_pos
 	float	y;
 	int		z;
 	int 	z1;
+	int		tab_x;
+	int		tab_y;
 
 	int		color;
 	int		gradient;
@@ -70,7 +72,7 @@ int		ft_isdigit(int c);
 size_t	ft_strlen(char *s);
 void	mlx_draw(t_map map);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-char 	get_color(t_data *fdf, int *start);
+int 	get_color(t_pos pos, t_data fdf);
 void render_isometric(float *x, float *y, int z);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_to_int.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 09:46:50 by cgelin            #+#    #+#             */
-/*   Updated: 2023/01/06 14:56:21 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/08 09:44:48 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,8 @@ int	ft_split_hex_color(const char *s, int i)
 	count = 0;
 	while (s[j] && s[j - 1] != ',')
 	{
-		if (s[j] == ' ')
-			return (0);
+		if (s[j] == ' ' || s[j] == '\n')
+			return (0xFFFFFF);
 		j++;
 	}
 	if (s[j] == 0)
@@ -206,10 +206,13 @@ t_array	ft_split_to_int(char const *s, char c)
 			i++;
 		size = ft_size_word(s, c, i);
 		line.arr[j] = ft_atoi(ft_substr(s, i, size));
-		line.color[j] = ft_split_hex_color(s, i);
+		// line.color[j] = ft_split_hex_color(s, i);
+		// ft_err_printf("%d", line.arr[j]);
+		// ft_err_printf(",%d:%d|", line.color[j], j);
 		i += size;
 		while (s[i] != c && s[i])
 			i++;
 	}
+	// printf("\n");
 	return (line.size = word, line);
 }

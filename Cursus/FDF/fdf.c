@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:30:49 by colas             #+#    #+#             */
-/*   Updated: 2023/01/06 15:04:13 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/08 09:44:53 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,18 @@ t_map	get_map(char *file_name)
 	map.line = malloc(sizeof(t_array) * i);
 	if (!map.line)
 		exit(1);
+	int k;
 	j = 0;
 	while (j < i)
 	{
+		k = 0;
 		map.line[j] = ft_split_to_int(get_next_line(fd), ' ');
+		while (k < map.line[j].size)
+		{
+			ft_err_printf("|%d", map.line[j].arr[k]);
+			// ft_err_printf(",%d|", map.line[j].color[k]);
+			k++;
+		}
 		j++;
 	}
 	return (map.row_nbr = i, map);
@@ -49,21 +57,21 @@ int	main(int argc, char **argv)
 		return (ft_err_printf("USAGE : ./fdf {MAP_FILE}"), 1);
 	map = get_map(argv[1]);
 	ft_err_printf("row : %d, line : %d\n", map.row_nbr, map.line->size);
-	int j;
-	int k;
-	k = 0;
-	j = 0;
-	while (j < 33)
-	{
-		k = 0;
-		while (k < map.line->size)
-		{
-			ft_err_printf("%d", map.line[j].arr[k]);
-			ft_err_printf("%s", map.line[j].color[k]);
-			k++;
-		}
-		printf("%d\n", j);
-		j++;
-	}
+	// int j;
+	// int k;
+	// k = 0;
+	// j = 0;
+	// while (j < 33)
+	// {
+	// 	k = 0;
+	// 	while (k < map.line[j].size)
+	// 	{
+	// 		ft_err_printf("%d", map.line[j].arr[k]);
+	// 		ft_err_printf("%d", map.line[j].color[k]);
+	// 		k++;
+	// 	}
+	// 	printf("--%d\n", j);
+	// 	j++;
+	// }
 	// mlx_draw(map);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 11:12:33 by colas             #+#    #+#             */
-/*   Updated: 2023/01/04 14:01:57 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/08 09:42:40 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 	float	y_step;
 	int		max;
 
-	pos.z = fdf.map.line[(int)pos.y].arr[(int)pos.x];
-	pos.z1 = fdf.map.line[(int)y1].arr[(int)x1];
+	pos.z = fdf.map.line[(int)pos.tab_y].arr[(int)pos.tab_x] * 10;
+	pos.z1 = fdf.map.line[(int)y1].arr[(int)x1] * 10;
+	pos.x = pos.tab_x;
+	pos.y = pos.tab_y;
 	pos.x *= fdf.xy_scale;
 	x1 *= fdf.xy_scale;
 	pos.y *= fdf.xy_scale;
@@ -35,7 +37,7 @@ void	bresenham(t_pos pos, float x1, float y1, t_data fdf)
 	while ((int)(pos.x - x1) || (int)(pos.y - y1))
 	{
 		my_mlx_pixel_put(&fdf, (int)pos.x + fdf.offsetx, \
-		(int)pos.y + fdf.offsety, 0xFFFFFFFF);
+		(int)pos.y + fdf.offsety, get_color(pos, fdf));
 		pos.x += x_step;
 		pos.y += y_step;
 	}
@@ -48,12 +50,12 @@ void	draw_lines(t_data fdf)
 	int		y;
 
 	y = 0;
-	pos.y = 0;
-	fdf.xy_scale = 20;
+	pos.tab_y = 0;
+	fdf.xy_scale = 1;
 	while (y < fdf.map.row_nbr)
 	{
 		x = 0;
-		pos.x = 0;
+		pos.tab_x = 0;
 		while (x < fdf.map.line[y].size)
 		{		
 			if (x < fdf.map.line[y].size - 1)
@@ -61,10 +63,10 @@ void	draw_lines(t_data fdf)
 			if (y < fdf.map.row_nbr - 1)
 				bresenham(pos, x, y + 1, fdf);
 			x++;
-			pos.x = x;
+			pos.tab_x = x;
 		}
 		y++;
-		pos.y = y;
+		pos.tab_y = y;
 	}
 }
 
