@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 14:03:19 by cgelin            #+#    #+#             */
-/*   Updated: 2023/01/09 15:52:04 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/13 16:03:08 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,71 @@ void	move(t_data *fdf, int key)
 		fdf->offsetx -= 10;
 	if (key == 2)
 		fdf->offsetx += 10;
-	fdf->img = mlx_new_image(fdf->mlx, 1200, 675);
-	fdf->addr = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel, \
-	&fdf->line_length, &fdf->endian);
-	draw_lines(*fdf);
-	mlx_put_image_to_window(fdf->mlx, fdf->mlx_win, fdf->img, 0, 0);
 }
 
 void	zoom(t_data *fdf, int key)
 {
-	if (key == 78)
-		fdf->xy_scale -= 1;
-	if (key == 69)
-		fdf->xy_scale += 1;
-	fdf->img = mlx_new_image(fdf->mlx, 1200, 675);
-	fdf->addr = mlx_get_data_addr(fdf->img, &fdf->bits_per_pixel, \
-	&fdf->line_length, &fdf->endian);
-	draw_lines(*fdf);
-	mlx_put_image_to_window(fdf->mlx, fdf->mlx_win, fdf->img, 0, 0);
+	if (key == 27 && fdf->xy_scale > 0)
+		fdf->xy_scale -= 0.5f;
+	if (key == 24)
+		fdf->xy_scale += 0.5f;
+	if (key == 29)
+	{
+		fdf->z_scale += 0.1f;
+		fdf->map.i_max += 10;
+	}
+	if (key == 25)
+	{
+		fdf->z_scale -= 0.1f;
+		fdf->map.i_max -= 10;
+	}
 }
 
-void	rotate(int key, t_fdf *fdf)
+void	iso(int key, t_data *fdf)
 {
-	if (key == KEY_E)
-		fdf->cam->angle += ANGLE_INC;
-	else if (key == KEY_Q)
-		fdf->cam->angle -= ANGLE_INC;
-	draw_wireframe(fdf);
+	if (key == 34)
+	{
+		if (fdf->iso == 0)
+		{
+			fdf->iso_val = 0.5;
+			fdf->iso = 1;
+		}
+		else if (fdf->iso_val == 0.5)
+			fdf->iso_val = 0;
+		else
+			fdf->iso = 0;
+	}
 }
 
-int	get_keys(int key, t_data *fdf)
+void	rotate(int key, t_data *fdf)
 {
-	if (key == 53)
-		ft_close(fdf);
-	if (key == 13 || key == 2 || key == 1 || key == 0)
-		move(fdf, key);
-	// if (key == 69 || key == 78)
-	// 	zoom(fdf, key);
-	printf("%d\n", key);
-	return (0);
+	if (key == 17)
+		fdf->rot_val += 0.05f;
+	if (key == 15)
+		fdf->rot_val -= 0.05f;
+}
+
+void	colors(int key, t_data *fdf)
+{
+	if (key == 8)
+	{
+		if (fdf->theme.index == 1)
+		{
+			fdf->theme.color1 = 0xF27E9D;
+			fdf->theme.color2 = 0xEF16F2;
+			fdf->theme.color3 = 0x9D21BF;
+			fdf->theme.color4 = 0x6B1F8C;
+			fdf->theme.color5 = 0x261340;
+			fdf->theme.index = 0;
+		}
+		else
+		{	
+			fdf->theme.color1 = 0x04D939;
+			fdf->theme.color2 = 0x03A63C;
+			fdf->theme.color3 = 0x027333;
+			fdf->theme.color4 = 0x025939;
+			fdf->theme.color5 = 0x012340;
+			fdf->theme.index = 1;
+		}
+	}
 }

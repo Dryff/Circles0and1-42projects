@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:30:49 by colas             #+#    #+#             */
-/*   Updated: 2023/01/09 13:53:50 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/13 15:32:56 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	get_max_min(t_map *map)
+{
+	int	j;
+	int	i;
+
+	i = 0;
+	map->i_max = 0;
+	map->i_min = 0;
+	while (i < map->row_nbr)
+	{
+		j = 0;
+		while (j < map->line->size)
+		{
+			if (map->line[i].arr[j] > map->i_max)
+				map->i_max = map->line[i].arr[j];
+			if (map->line[i].arr[j] < map->i_min)
+				map->i_min = map->line[i].arr[j];
+			j++;
+		}
+		i++;
+	}
+	printf("%d\n", map->i_max);
+	printf("%d\n", map->i_min);
+}
 
 t_map	get_map(char *file_name)
 {
@@ -38,7 +63,7 @@ t_map	get_map(char *file_name)
 		map.line[j] = ft_split_to_int(get_next_line(fd), ' ');
 		j++;
 	}
-	return (map.row_nbr = i, map);
+	return (map.row_nbr = i, get_max_min(&map), map);
 }
 
 int	main(int argc, char **argv)
@@ -49,22 +74,6 @@ int	main(int argc, char **argv)
 		return (ft_err_printf("USAGE : ./fdf {MAP_FILE}"), 1);
 	map = get_map(argv[1]);
 	ft_err_printf("row : %d, line : %d\n", map.row_nbr, map.line->size);
-	// int j;
-	// int k;
-	// k = 0;
-	// j = 0;
-	// while (j < 33)
-	// {
-	// 	k = 0;
-	// 	while (k < map.line[j].size)
-	// 	{
-	// 		ft_err_printf("%d", map.line[j].arr[k]);
-	// 		ft_err_printf("%d", map.line[j].color[k]);
-	// 		k++;
-	// 	}
-	// 	printf("--%d\n", j);
-	// 	j++;
-	// }
 	mlx_draw(map);
 	free(map.line);
 }

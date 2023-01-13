@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgelin <cgelin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: colas <colas@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 09:57:56 by colas             #+#    #+#             */
-/*   Updated: 2023/01/09 15:50:45 by cgelin           ###   ########.fr       */
+/*   Updated: 2023/01/13 15:54:06 by colas            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 # include <math.h>
 # include <stdio.h>
 
-# define MAX(a, b) (a > b ? a : b)
-# define ABS(a) ((a < 0) ? -a : a)
-
 typedef struct s_array
 {
 	int		*arr;
@@ -34,7 +31,19 @@ typedef struct s_map
 {
 	t_array	*line;
 	int		row_nbr;
+	int		i_max;
+	int		i_min;
 }				t_map;
+
+typedef struct s_theme
+{
+	int color1;
+	int color2;
+	int color3;
+	int color4;
+	int color5;
+	int index;
+}				t_theme;
 
 typedef struct s_data
 {
@@ -49,8 +58,14 @@ typedef struct s_data
 
 	int		offsety;
 	int		offsetx;
-	int		xy_scale;
-	int		z_scale;
+	float	xy_scale;
+	float	z_scale;
+	int		iso;
+	float	iso_val;
+	float	iso_tmp;
+	float	rot_val;
+	t_theme	theme;
+
 }				t_data;
 
 typedef struct s_pos
@@ -66,17 +81,38 @@ typedef struct s_pos
 	int		gradient;
 }				t_pos;
 
-int		ft_atoi(const char *str);
+//Parse
 t_array	ft_split_to_int(char const *s, char c);
+int		ft_atoi(const char *str);
 int		ft_isdigit(int c);
 size_t	ft_strlen(char *s);
+
+//Drawing
+void	draw_lines(t_data fdf);
 void	mlx_draw(t_map map);
+int		get_keys(int key, t_data *fdf);
+
+//Drawing_utils
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		get_color(t_pos pos, t_data fdf);
-void	render_isometric(float *x, float *y, int z);
-int		ft_split_hex_color(const char *s, int i);
+void	render_isometric(t_data fdf, float *x, float *y, int z);
+void	render_rotation(t_data fdf, float *x, float *y);
+void	max(float *x_step, float *y_step);
+
+//Controls
 int		ft_close(t_data *fdf);
-void	draw_lines(t_data fdf);
-int		get_keys(int key, t_data *fdf);
+void	move(t_data *fdf, int key);
+void	zoom(t_data *fdf, int key);
+void	iso(int key, t_data *fdf);
+void	rotate(int key, t_data *fdf);
+void	colors(int key, t_data *fdf);
+
+//Assign values
+void	scale_pos(t_pos *pos, t_data fdf, float *x1, float *y1);
+void	assign_pos(t_pos *pos, t_data fdf, float *x1, float *y1);
+void	set_base_vals(t_data *fdf);
+
+
+
 
 #endif
